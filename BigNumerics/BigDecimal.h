@@ -53,7 +53,7 @@ public:
 
 	BigDecimal WholePart() const { return BigDecimal(data / BigInteger(SIGNED_DOUBLE_DIGIT(DEC::RADIX)).Power(DOUBLE_DIGIT(decimalPlaces)), 0); }
 	BigDecimal DecimalPart() const { return BigDecimal(data % BigInteger(SIGNED_DOUBLE_DIGIT(DEC::RADIX)).Power(DOUBLE_DIGIT(decimalPlaces)), decimalPlaces); }
-	BigDecimal Inverse() const { return BigDecimal(1ll) / *this; }
+	BigDecimal Inverse() const { return BigDecimal(SIGNED_DOUBLE_DIGIT(1)) / *this; }
 	COMPARISON Compare(BigDecimal rightComparand) const;
 
 	bool operator <(BigDecimal rightComparand) const { return Compare(rightComparand) == COMPARISON::MINOR; }

@@ -3,10 +3,12 @@
 
 #include <iostream>
 #include "BcdAngle.h"
+#include <chrono>
 //#include "BigNumeric.h"
 
 void BcdDecimalTest()
 {
+    auto inicio = std::chrono::steady_clock::now();
 
     BcdDecimal j = "-35";
     BcdDecimal logaritmo = j.Ln();
@@ -41,25 +43,43 @@ void BcdDecimalTest()
 
     BcdDecimal xy = BcdDecimal::E();
     BcdDecimal k = j.Ln();
-    BcdDecimal l = j.Log(10ll);
+    BcdDecimal l = j.Log(SIGNED_DOUBLE_DIGIT(10));
     string m = k.ToString();
     string p = l.ToString();
 
     k = k.Exp();
     m = k.ToString();
-    l = l.Antilog(10ll);
+    l = l.Antilog(SIGNED_DOUBLE_DIGIT(10));
     p = l.ToString();
 
     BcdDecimal x = 2.12345678901234;
     BcdDecimal a = "15,121212";
     //string k = a.ToString();
 
-    BcdAngle angle = BcdDecimal(30ll);
+    BcdAngle angle = BcdDecimal(SIGNED_DOUBLE_DIGIT(30));
     //BcdAngle sin = angle.Tan();
 
     BcdDecimal b = "-6,6";
+
+    auto fim = std::chrono::steady_clock::now();
+    std::cout << std::chrono::duration<double>(fim - inicio).count()
+        << " segundos\n";
+    inicio = std::chrono::steady_clock::now();
+
     BcdDecimal c = BcdDecimal("5").Gamma();
-    SIGNED_DOUBLE_DIGIT n = 6;
+
+    fim = std::chrono::steady_clock::now();
+    std::cout << std::chrono::duration<double>(fim - inicio).count()
+        << " segundos\n";
+    
+    inicio = std::chrono::steady_clock::now();
+    c = BcdDecimal("5").Gamma();
+
+    fim = std::chrono::steady_clock::now();
+    std::cout << std::chrono::duration<double>(fim - inicio).count()
+        << " segundos\n";
+
+    SIGNED_DOUBLE_DIGIT n = SIGNED_DOUBLE_DIGIT(6);
     string s = c.ToString();
     string t;
 
@@ -79,7 +99,7 @@ void BcdDecimalTest()
 
     BcdDecimal pi = BcdDecimal::PI();
     BcdDecimal e = BcdDecimal::E();
-    BcdDecimal log = pi.BcdDecimal::Log(10ll);
+    BcdDecimal log = pi.BcdDecimal::Log(SIGNED_DOUBLE_DIGIT(10));
     BcdDecimal ln = pi.Ln();
     BcdDecimal ln1 = pi.Log(BcdDecimal::E());
 
@@ -95,6 +115,8 @@ void BcdDecimalTest()
 int main()
 {
     BcdDecimalTest();
+    std::cout << "Pressione Enter para continuar...";
+    std::cin.get();
 
     return 0;
 }

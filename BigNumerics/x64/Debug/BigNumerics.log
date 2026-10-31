@@ -1,0 +1,5 @@
+﻿  In file included from BcdNumeric.cpp:8:
+  In file included from .\BcdNumeric.h:11:
+.\General.h(43,16): warning : unused function 'CountDigits' [-Wunused-function]
+.\General.h(44,14): warning : unused function 'Decrement' [-Wunused-function]
+  BigNumerics.vcxproj -> D:\BigNumerics\x64\Debug\BigNumerics.exe

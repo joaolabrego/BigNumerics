@@ -40,7 +40,7 @@ namespace BIN
 namespace DEC
 {
 	const DIGIT RADIX = 10;
-	const size_t DIGIT_LENGTH = size_t(log10(double(BIN::BASE)));
+	const size_t DIGIT_LENGTH = size_t(log10(double(BIN::BASE / 2)));
 	const DIGIT BASE = DIGIT(pow(RADIX, double(DIGIT_LENGTH)));
 	const DIGIT MAXIMUM_VALUE = DIGIT(BASE - 1);
 }

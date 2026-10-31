@@ -406,18 +406,18 @@ BcdDecimal BcdDecimal::Ln() const
 			logarithmand = logarithmand.Inverse();
 		}
 		value = logarithmand;
-		result = 0ll;
+		result.ToZero();
 		while (value >= base)
 		{
 			value /= base;
-			result += 1ll;
+			result += SIGNED_DOUBLE_DIGIT(1);
 		}
 		result += (value / base);
 		value = logarithmand;
 		do
 		{
 			lastResult = result;
-			result = ((value / (result - 1ll).Exp()) + (result - 1ll) * base) / base;
+			result = ((value / (result - SIGNED_DOUBLE_DIGIT(1)).Exp()) + (result - SIGNED_DOUBLE_DIGIT(1)) * base) / base;
 		} while (result != lastResult);
 		result.ToSign(sign);
 		General::DownPrecision();
@@ -429,16 +429,16 @@ BcdDecimal BcdDecimal::Ln() const
 BcdDecimal BcdDecimal::Exp() const
 /********************************/
 {
-	BcdDecimal result = 0ll,
+	BcdDecimal result = SIGNED_DOUBLE_DIGIT(0),
 		lastResult,
 		lastDigit,
-		digit = 1ll;
+		digit = SIGNED_DOUBLE_DIGIT(1);
 	size_t index = 1;
 
 	if (AsVector().size())
 	{
 		if (IsZero())
-			return BcdDecimal(1ll);
+			return BcdDecimal(SIGNED_DOUBLE_DIGIT(1));
 		General::UpPrecision();
 		do
 		{
@@ -479,7 +479,7 @@ BcdDecimal BcdDecimal::Add(const BcdDecimal& addend) const
 		if (IsZero())
 			result = addend;
 		else
-			result = (Ln() + (BcdDecimal(1ll) + addend / *this).Ln()).Exp();
+			result = (Ln() + (BcdDecimal(SIGNED_DOUBLE_DIGIT(1)) + addend / *this).Ln()).Exp();
 		General::DownPrecision();
 	}
 
@@ -497,7 +497,7 @@ BcdDecimal BcdDecimal::Subtract(const BcdDecimal& subtrahend) const
 		if (IsZero())
 			result = subtrahend;
 		else
-			result = (Ln() + (BcdDecimal(1ll) - subtrahend / *this).Ln()).Exp();
+			result = (Ln() + (BcdDecimal(SIGNED_DOUBLE_DIGIT(1)) - subtrahend / *this).Ln()).Exp();
 		General::DownPrecision();
 	}
 
@@ -513,7 +513,7 @@ BcdDecimal BcdDecimal::Multiply(const BcdDecimal& multiplier) const
 	{
 		General::UpPrecision();
 		if (IsZero() || multiplier.IsZero())
-			result = 0ll;
+			result.ToZero();
 		else if (IsOne())
 			result = multiplier;
 		else if (multiplier.IsOne())
@@ -596,21 +596,21 @@ BcdDecimal BcdDecimal::PI()
 	if (value.IsNull())
 	{
 		General::UpPrecision();
-		BcdDecimal lastArithmeticMean = 1ll,
-			geometricMean = BcdDecimal(2ll).Root(2).Inverse(),
+		BcdDecimal lastArithmeticMean = SIGNED_DOUBLE_DIGIT(1),
+			geometricMean = BcdDecimal(SIGNED_DOUBLE_DIGIT(2)).Root(2).Inverse(),
 			arthimectMean,
-			sum = 0ll,
-			potencyTwo = 2ll;
+			sum = SIGNED_DOUBLE_DIGIT(0),
+			potencyTwo = SIGNED_DOUBLE_DIGIT(2);
 		
 		do
 		{
 			arthimectMean = (lastArithmeticMean + geometricMean) / 2;
 			geometricMean = (lastArithmeticMean * geometricMean).Root(2);
 			lastArithmeticMean = arthimectMean;
-			potencyTwo *= 2;
+			potencyTwo *= SIGNED_DOUBLE_DIGIT(2);
 			sum = sum + (lastArithmeticMean.Power(2) - geometricMean.Power(2)) * potencyTwo;
 		} while (lastArithmeticMean != geometricMean);
-		value = lastArithmeticMean.Power(2) * 4 / (BcdDecimal(1ll) - sum);
+		value = lastArithmeticMean.Power(2) * SIGNED_DOUBLE_DIGIT(4) / (BcdDecimal(SIGNED_DOUBLE_DIGIT(1)) - sum);
 		General::DownPrecision();
 	}
 
@@ -641,9 +641,9 @@ BcdDecimal BcdDecimal::E()
 	{
 		General::UpPrecision();
 		BcdDecimal lastResult,
-			result = 2ll,
-			factorial = 2ll;
-		SIGNED_DOUBLE_DIGIT index = 2ll;
+			result = SIGNED_DOUBLE_DIGIT(2),
+			factorial = SIGNED_DOUBLE_DIGIT(2);
+		SIGNED_DOUBLE_DIGIT index = SIGNED_DOUBLE_DIGIT(2);
 		
 		do
 		{
@@ -671,7 +671,7 @@ BcdDecimal BcdDecimal::Gamma() const
 	size_t length = coeficients.size();
 
 	General::UpPrecision();
-	value += BcdDecimal(1ll);
+	value += BcdDecimal(SIGNED_DOUBLE_DIGIT(1));
 	result = coeficients.front();
 	for (size_t i = 1; i < length; i++)
 		result += coeficients[i] / (value + BcdDecimal(SIGNED_DOUBLE_DIGIT(i)));
@@ -693,7 +693,7 @@ vector <BcdDecimal> BcdDecimal::GammaCoefficients()
 	{
 		General::UpPrecision();
 
-		BcdDecimal factorial = 1ll,
+		BcdDecimal factorial = SIGNED_DOUBLE_DIGIT(1),
 			index,
 			half = BcdDecimal(0.5),
 			parcel,

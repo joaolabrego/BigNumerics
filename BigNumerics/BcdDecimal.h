@@ -30,9 +30,9 @@ public:
 	static BcdDecimal E();
 	static vector <BcdDecimal> GammaCoefficients();
 	BcdDecimal Log(BcdDecimal base) const;
-	BcdDecimal Antilog(BcdDecimal base = 10ll) const;
+	BcdDecimal Antilog(BcdDecimal base = SIGNED_DOUBLE_DIGIT(10)) const;
 	BcdDecimal Ln() const;
-	BcdDecimal Log10() const { return Log(10ll); }
+	BcdDecimal Log10() const { return Log(SIGNED_DOUBLE_DIGIT(10)); }
 	BcdDecimal Exp() const;
 	BcdDecimal Add(const BcdDecimal& addend) const;
 	BcdDecimal Subtract(const BcdDecimal& subtrahend) const;
@@ -88,7 +88,7 @@ public:
 	BcdDecimal& Truncate(size_t decimalPlaces = General::GetPrecision());
 	BcdDecimal& Round(size_t decimalPlaces = General::GetPrecision());
 	
-	BcdDecimal Inverse() const { return BcdDecimal(1ll) / *this; }
+	BcdDecimal Inverse() const { return BcdDecimal(SIGNED_DOUBLE_DIGIT(1)) / *this; }
 	BcdDecimal Power(SIGNED_DOUBLE_DIGIT exponent) const;
 	BcdDecimal Root(SIGNED_DOUBLE_DIGIT degree) const;
 

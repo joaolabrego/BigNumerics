@@ -314,7 +314,7 @@ VECTOR General::Repetend(const string& value, const size_t times)
 		return VECTOR(GetPrecision() * times, 0);
 	repetend = General::PadRight(repetend, GetPrecision() * DEC::DIGIT_LENGTH * times, repetend);
 	for (size_t i = repetend.size(); i;)
-		result.push_back(stoul(repetend.substr(i -= DEC::DIGIT_LENGTH, DEC::DIGIT_LENGTH)));
+		result.push_back(stoull(repetend.substr(i -= DEC::DIGIT_LENGTH, DEC::DIGIT_LENGTH)));
 
 	return result;
 }

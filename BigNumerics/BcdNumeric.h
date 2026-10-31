@@ -56,6 +56,7 @@ public:
 	BcdNumeric LCM(const BcdNumeric& rightValue) const; 
 	BcdNumeric Factorial() const;
 
+
 	bool operator <(const DOUBLE_DIGIT rightComparand) const { return Compare(rightComparand) == COMPARISON::MINOR; }
 	bool operator <=(const DOUBLE_DIGIT rightComparand) const { return Compare(rightComparand) != COMPARISON::MAJOR; }
 	bool operator ==(const DOUBLE_DIGIT rightComparand) const { return Compare(rightComparand) == COMPARISON::EQUAL; }

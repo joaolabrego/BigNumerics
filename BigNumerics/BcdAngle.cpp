@@ -23,7 +23,7 @@ BcdAngle& BcdAngle::ToValue(BcdDecimal value, ANGLE_UNIT unit)
     {
         value %= 360ll;
         if (value.IsZero() || value.IsNegative())
-            value += 360ll;
+            value += SIGNED_DOUBLE_DIGIT(360);
         if (value < 90)
             quadrant = ANGLE_QUADRANT::FIRST;
         else if (value < 180)
@@ -38,7 +38,7 @@ BcdAngle& BcdAngle::ToValue(BcdDecimal value, ANGLE_UNIT unit)
     {
         value %= 400ll;
         if (value.IsZero() || value.IsNegative())
-            value += 400ll;
+            value += SIGNED_DOUBLE_DIGIT(400);
         if (value < 100)
             quadrant = ANGLE_QUADRANT::FIRST;
         else if (value < 200)
@@ -47,7 +47,7 @@ BcdAngle& BcdAngle::ToValue(BcdDecimal value, ANGLE_UNIT unit)
             quadrant = ANGLE_QUADRANT::THIRD;
         else
             quadrant = ANGLE_QUADRANT::FOURTH;
-        value *= (BcdDecimal::PI() / 200ll);
+        value *= (BcdDecimal::PI() / SIGNED_DOUBLE_DIGIT(200));
     }
     else
     {
@@ -304,7 +304,7 @@ BcdDecimal BcdAngle::Arcsin(const BcdDecimal& value, const ANGLE_QUADRANT quadra
     else if (value.IsOne())
         return HalfPI();
     General::UpPrecision();
-    result = Arctan(value / ((BcdDecimal(1ll) + value) * (BcdDecimal(1ll) - value)).Root(2), quadrant);
+    result = Arctan(value / ((BcdDecimal(SIGNED_DOUBLE_DIGIT(1)) + value) * (BcdDecimal(SIGNED_DOUBLE_DIGIT(1)) - value)).Root(2), quadrant);
     General::DownPrecision();
 
     return result;
@@ -330,7 +330,7 @@ BcdDecimal BcdAngle::Arccos(BcdDecimal value, const ANGLE_QUADRANT quadrant)
         return BcdDecimal::DoublePI();
     }
     General::UpPrecision();
-    result = Arctan(((BcdDecimal(1ll) + value) * (BcdDecimal(1ll) - value)).Root(2) / value, quadrant);
+    result = Arctan(((BcdDecimal(SIGNED_DOUBLE_DIGIT(1)) + value) * (BcdDecimal(SIGNED_DOUBLE_DIGIT(1)) - value)).Root(2) / value, quadrant);
     General::DownPrecision();
 
     return result;
@@ -493,7 +493,7 @@ BcdDecimal BcdAngle::Sech(const BcdDecimal& value)
 
     General::UpPrecision();
     result = value.Exp();
-    result = BcdDecimal(2ll) / (result + result.Inverse());
+    result = BcdDecimal(SIGNED_DOUBLE_DIGIT(2)) / (result + result.Inverse());
     General::DownPrecision();
 
     return result;
@@ -506,7 +506,7 @@ BcdDecimal BcdAngle::Csch(const BcdDecimal& value)
 
     General::UpPrecision();
     result = value.Exp();
-    result = BcdDecimal(2ll) / (result - result.Inverse());
+    result = BcdDecimal(SIGNED_DOUBLE_DIGIT(2)) / (result - result.Inverse());
     General::DownPrecision();
 
     return result;
@@ -548,7 +548,7 @@ BcdDecimal BcdAngle::Arsinh(const BcdDecimal& value)
     BcdDecimal result;
 
     General::UpPrecision();
-    result = (value + (value.Power(2) + 1ll).Root(2)).Ln();
+    result = (value + (value.Power(2) + SIGNED_DOUBLE_DIGIT(1)).Root(2)).Ln();
     General::DownPrecision();
 
     return result;
@@ -560,7 +560,7 @@ BcdDecimal BcdAngle::Arcosh(const BcdDecimal& value)
     BcdDecimal result;
 
     General::UpPrecision();
-    result = (value + (value.Power(2) - 1ll).Root(2)).Ln();
+    result = (value + (value.Power(2) - SIGNED_DOUBLE_DIGIT(1)).Root(2)).Ln();
     General::DownPrecision();
 
     return result;
@@ -572,7 +572,7 @@ BcdDecimal BcdAngle::Arsech(const BcdDecimal& value)
     BcdDecimal result;
 
     General::UpPrecision();
-    result = ((BcdDecimal(1ll) + (BcdDecimal(1ll) - value.Power(2)).Root(2)) / value).Ln();
+    result = ((BcdDecimal(SIGNED_DOUBLE_DIGIT(1)) + (BcdDecimal(SIGNED_DOUBLE_DIGIT(1)) - value.Power(2)).Root(2)) / value).Ln();
     General::DownPrecision();
 
     return result;
@@ -584,7 +584,7 @@ BcdDecimal BcdAngle::Arcsch(const BcdDecimal& value)
     BcdDecimal result;
 
     General::UpPrecision();
-    result = ((BcdDecimal(1ll) + (BcdDecimal(1ll) + value.Power(2)).Root(2)) / value).Ln();
+    result = ((BcdDecimal(SIGNED_DOUBLE_DIGIT(1)) + (BcdDecimal(SIGNED_DOUBLE_DIGIT(1)) + value.Power(2)).Root(2)) / value).Ln();
     General::DownPrecision();
 
     return result;
@@ -596,7 +596,7 @@ BcdDecimal BcdAngle::Artanh(const BcdDecimal& value)
     BcdDecimal result;
 
     General::UpPrecision();
-    result = ((BcdDecimal(1ll) + value) / (BcdDecimal(1ll) - value)).Ln() / 2;
+    result = ((BcdDecimal(SIGNED_DOUBLE_DIGIT(1)) + value) / (BcdDecimal(SIGNED_DOUBLE_DIGIT(1)) - value)).Ln() / 2;
     General::DownPrecision();
 
     return result;
@@ -608,7 +608,7 @@ BcdDecimal BcdAngle::Arcoth(const BcdDecimal& value)
     BcdDecimal result;
 
     General::UpPrecision();
-    result = ((BcdDecimal(1ll) - value) / (BcdDecimal(1ll) + value)).Ln() / 2;
+    result = ((BcdDecimal(SIGNED_DOUBLE_DIGIT(1)) - value) / (BcdDecimal(SIGNED_DOUBLE_DIGIT(1)) + value)).Ln() / 2;
     General::DownPrecision();
 
     return result;

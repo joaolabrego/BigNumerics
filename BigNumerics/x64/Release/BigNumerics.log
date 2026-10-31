@@ -1,0 +1,21 @@
+﻿  BcdAngle.cpp
+  BcdDecimal.cpp
+  BcdInteger.cpp
+  BigDecimal.cpp
+  BigFloat.cpp
+D:\BigNumerics\BigNumerics\BigFloat.cpp(14,8): warning C4101: 'digit': variável local não referenciada
+  BigInteger.cpp
+  BigNumeric.cpp
+  Main.cpp
+  BcdNumeric.cpp
+D:\BigNumerics\BigNumerics\BcdNumeric.cpp(44,25): warning C4244: 'argumento': conversão de 'unsigned __int64' para '_Ty', possível perda de dados
+D:\BigNumerics\BigNumerics\BcdNumeric.cpp(44,25): warning C4244:         with
+D:\BigNumerics\BigNumerics\BcdNumeric.cpp(44,25): warning C4244:         [
+D:\BigNumerics\BigNumerics\BcdNumeric.cpp(44,25): warning C4244:             _Ty=DIGIT
+D:\BigNumerics\BigNumerics\BcdNumeric.cpp(44,25): warning C4244:         ]
+  Gerando código
+  0 of 975 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finalizada a geração de código
+  BigNumerics.vcxproj -> D:\BigNumerics\x64\Release\BigNumerics.exe

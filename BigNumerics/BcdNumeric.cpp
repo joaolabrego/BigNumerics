@@ -41,7 +41,7 @@ BcdNumeric& BcdNumeric::operator =(const string& value)
 	{
 		wholePart = General::PadLeft(wholePart);
 		for (size_t i = wholePart.size(); i;)
-			data.push_back(stoul(wholePart.substr(i -= DEC::DIGIT_LENGTH, DEC::DIGIT_LENGTH)));
+			data.push_back(stoull(wholePart.substr(i -= DEC::DIGIT_LENGTH, DEC::DIGIT_LENGTH)));
 		if (decimalPart.size() && decimalPart.front() >= '5') // to round.
 			++*this;
 	}
@@ -273,6 +273,7 @@ BcdNumeric BcdNumeric::operator *(const BcdNumeric& multiplier) const
 
 	return product;
 }
+
 /*******************************************************************************/
 BcdNumeric BcdNumeric::Divide(const DOUBLE_DIGIT divisor, DIGIT& remainder) const
 /*******************************************************************************/
@@ -346,48 +347,258 @@ DIGIT BcdNumeric::BinarySearchDigit(const BcdNumeric& divisor, BcdNumeric& remai
 
 	return digit;
 }
+///***********************************************************************************/
+//BcdNumeric BcdNumeric::Divide(const BcdNumeric& divisor, BcdNumeric& remainder) const
+///***********************************************************************************/
+//{
+//	size_t length = data.size();
+//	BcdNumeric partialDividend,
+//		quotient;
+//	COMPARISON comparison;
+//
+//	if (length && divisor.data.size() && !divisor.IsZero())
+//	{
+//		if (IsZero() || divisor.IsOne())
+//			return (remainder.ToZero(), *this);
+//		if ((comparison = Compare(divisor)) == COMPARISON::MINOR)
+//			return (remainder = *this, quotient.ToZero());
+//		if (comparison == COMPARISON::EQUAL)
+//			return (remainder.ToZero(), quotient.ToOne());
+//		for (size_t i = length; i;)
+//		{
+//			partialDividend.data.insert(partialDividend.data.begin(), data.at(--i));
+//			comparison = partialDividend.Compare(divisor);
+//			if (comparison == COMPARISON::MINOR)
+//			{
+//				if (quotient.data.size())
+//					quotient.data.insert(quotient.data.begin(), 0);
+//				remainder = partialDividend;
+//			}
+//			else if (comparison == COMPARISON::EQUAL)
+//			{
+//				partialDividend.ToNull();
+//				quotient.data.insert(quotient.data.begin(), 1);
+//				remainder.ToZero();
+//			}
+//			else
+//			{
+//				quotient.data.insert(quotient.data.begin(), partialDividend.BinarySearchDigit(divisor, remainder));
+//				partialDividend = remainder;
+//			}
+//		}
+//		General::Normalize(quotient.data);
+//	}
+//
+//	return quotient;
+//}
+
 /***********************************************************************************/
 BcdNumeric BcdNumeric::Divide(const BcdNumeric& divisor, BcdNumeric& remainder) const
 /***********************************************************************************/
 {
-	size_t length = data.size();
-	BcdNumeric partialDividend,
-		quotient;
-	COMPARISON comparison;
+	BcdNumeric quotient;
+	const size_t dividendLength = data.size();
+	size_t divisorLength = divisor.data.size();
 
-	if (length && divisor.data.size() && !divisor.IsZero())
+	if (!dividendLength || !divisorLength || divisor.IsZero())
+		return quotient;
+
+	if (IsZero())
 	{
-		if (IsZero() || divisor.IsOne())
-			return (remainder.ToZero(), *this);
-		if ((comparison = Compare(divisor)) == COMPARISON::MINOR)
-			return (remainder = *this, quotient.ToZero());
-		if (comparison == COMPARISON::EQUAL)
-			return (remainder.ToZero(), quotient.ToOne());
-		for (size_t i = length; i;)
+		remainder.ToZero();
+		return *this;
+	}
+
+	COMPARISON comparison = Compare(divisor);
+
+	if (comparison == COMPARISON::MINOR)
+	{
+		remainder = *this;
+		return quotient.ToZero();
+	}
+
+	if (comparison == COMPARISON::EQUAL)
+	{
+		remainder.ToZero();
+		return quotient.ToOne();
+	}
+
+	const DOUBLE_DIGIT base = DEC::BASE;
+
+	// Divisão por um único dígito BCD.
+	if (divisorLength == 1)
+	{
+		const DOUBLE_DIGIT singleDivisor = divisor.data[0];
+		DOUBLE_DIGIT carry = 0;
+
+		quotient.data.resize(dividendLength, 0);
+
+		for (size_t i = dividendLength; i > 0;)
 		{
-			partialDividend.data.insert(partialDividend.data.begin(), data.at(--i));
-			comparison = partialDividend.Compare(divisor);
-			if (comparison == COMPARISON::MINOR)
+			--i;
+			const DOUBLE_DIGIT partial =
+				carry * base + DOUBLE_DIGIT(data[i]);
+
+			quotient.data[i] = DIGIT(partial / singleDivisor);
+			carry = partial % singleDivisor;
+		}
+
+		General::Normalize(quotient.data);
+		remainder = BcdNumeric(carry);
+		return quotient;
+	}
+
+	/*
+	 * Normaliza o divisor para que seu dígito mais significativo
+	 * fique próximo da metade da base.
+	 */
+	const DIGIT factor = DIGIT(
+		base / (DOUBLE_DIGIT(divisor.data[divisorLength - 1]) + 1)
+	);
+
+	VECTOR normalizedDivisor(divisorLength, 0);
+	VECTOR normalizedDividend(dividendLength + 1, 0);
+
+	DOUBLE_DIGIT carry = 0;
+	for (size_t i = 0; i < divisorLength; ++i)
+	{
+		const DOUBLE_DIGIT current =
+			DOUBLE_DIGIT(divisor.data[i]) * factor + carry;
+
+		normalizedDivisor[i] = DIGIT(current % base);
+		carry = current / base;
+	}
+	// O fator foi escolhido para que não haja carry além do divisor.
+
+	carry = 0;
+	for (size_t i = 0; i < dividendLength; ++i)
+	{
+		const DOUBLE_DIGIT current =
+			DOUBLE_DIGIT(data[i]) * factor + carry;
+
+		normalizedDividend[i] = DIGIT(current % base);
+		carry = current / base;
+	}
+	normalizedDividend[dividendLength] = DIGIT(carry);
+
+	quotient.data.resize(dividendLength - divisorLength + 1, 0);
+
+	// Produz os dígitos do quociente, do mais significativo para o menos.
+	for (size_t j = dividendLength - divisorLength + 1; j > 0;)
+	{
+		--j;
+
+		const DOUBLE_DIGIT numerator =
+			DOUBLE_DIGIT(normalizedDividend[j + divisorLength]) * base
+			+ normalizedDividend[j + divisorLength - 1];
+
+		DOUBLE_DIGIT quotientDigit =
+			numerator / normalizedDivisor[divisorLength - 1];
+
+		DOUBLE_DIGIT estimateRemainder =
+			numerator % normalizedDivisor[divisorLength - 1];
+
+		// Corrige uma estimativa excessiva usando o segundo dígito do divisor.
+		while (
+			quotientDigit >= base ||
+			quotientDigit * normalizedDivisor[divisorLength - 2] >
+			estimateRemainder * base
+			+ normalizedDividend[j + divisorLength - 2]
+			)
+		{
+			--quotientDigit;
+			estimateRemainder += normalizedDivisor[divisorLength - 1];
+
+			if (estimateRemainder >= base)
+				break;
+		}
+
+		// Multiplica o divisor pelo dígito estimado e subtrai.
+		carry = 0;
+		for (size_t i = 0; i < divisorLength; ++i)
+		{
+			const DOUBLE_DIGIT product =
+				quotientDigit * normalizedDivisor[i] + carry;
+
+			const DIGIT lowDigit = DIGIT(product % base);
+			carry = product / base;
+
+			if (normalizedDividend[j + i] < lowDigit)
 			{
-				if (quotient.data.size())
-					quotient.data.insert(quotient.data.begin(), 0);
-				remainder = partialDividend;
-			}
-			else if (comparison == COMPARISON::EQUAL)
-			{
-				partialDividend.ToNull();
-				quotient.data.insert(quotient.data.begin(), 1);
-				remainder.ToZero();
+				normalizedDividend[j + i] = DIGIT(
+					DOUBLE_DIGIT(normalizedDividend[j + i])
+					+ base - lowDigit
+				);
+				++carry;
 			}
 			else
 			{
-				quotient.data.insert(quotient.data.begin(), partialDividend.BinarySearchDigit(divisor, remainder));
-				partialDividend = remainder;
+				normalizedDividend[j + i] -= lowDigit;
 			}
 		}
-		General::Normalize(quotient.data);
+
+		const bool borrowed =
+			DOUBLE_DIGIT(normalizedDividend[j + divisorLength]) < carry;
+
+		if (borrowed)
+		{
+			normalizedDividend[j + divisorLength] = DIGIT(
+				DOUBLE_DIGIT(normalizedDividend[j + divisorLength])
+				+ base - carry
+			);
+		}
+		else
+		{
+			normalizedDividend[j + divisorLength] =
+				DIGIT(DOUBLE_DIGIT(normalizedDividend[j + divisorLength]) - carry);
+		}
+
+		// Se a estimativa foi uma unidade alta, soma o divisor de volta.
+		if (borrowed)
+		{
+			--quotientDigit;
+			carry = 0;
+
+			for (size_t i = 0; i < divisorLength; ++i)
+			{
+				const DOUBLE_DIGIT sum =
+					DOUBLE_DIGIT(normalizedDividend[j + i])
+					+ normalizedDivisor[i]
+					+ carry;
+
+				normalizedDividend[j + i] = DIGIT(sum % base);
+				carry = sum / base;
+			}
+
+			normalizedDividend[j + divisorLength] = DIGIT(
+				(DOUBLE_DIGIT(normalizedDividend[j + divisorLength]) + carry) % base
+			);
+		}
+
+		quotient.data[j] = DIGIT(quotientDigit);
 	}
 
+	General::Normalize(quotient.data);
+
+	// Copia os n dígitos do resto normalizado.
+	remainder.data.resize(divisorLength);
+	for (size_t i = 0; i < divisorLength; ++i)
+		remainder.data[i] = normalizedDividend[i];
+
+	// Desnormaliza o resto dividindo-o pelo fator usado no início.
+	carry = 0;
+	for (size_t i = divisorLength; i > 0;)
+	{
+		--i;
+
+		const DOUBLE_DIGIT current =
+			carry * base + remainder.data[i];
+
+		remainder.data[i] = DIGIT(current / factor);
+		carry = current % factor;
+	}
+
+	General::Normalize(remainder.data);
 	return quotient;
 }
 /*******************************************************/
