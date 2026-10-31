@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\boost">
+      <UniqueIdentifier>{8569b8f4-8eb9-40c6-b607-3ee395b12c27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\boost\int128">
+      <UniqueIdentifier>{90caea88-cf59-4990-8f3a-3c1171689e0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\boost\int128\detail">
+      <UniqueIdentifier>{e18b8a56-d596-4d68-9545-43e53e2bbf1b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="General.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BcdAngle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BcdDecimal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BcdInteger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BcdNumeric.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BigNumeric.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BigInteger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BigDecimal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BigFloat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="General.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BcdAngle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BcdDecimal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BcdInteger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BcdNumeric.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Readme.txt">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BigNumeric.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BigInteger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BigDecimal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BigFloat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\int128.hpp">
+      <Filter>Header Files\boost</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\bit.hpp">
+      <Filter>Header Files\boost\int128</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\byte_conversions.hpp">
+      <Filter>Header Files\boost\int128</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\charconv.hpp">
+      <Filter>Header Files\boost\int128</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\climits.hpp">
+      <Filter>Header Files\boost\int128</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\cstdlib.hpp">
+      <Filter>Header Files\boost\int128</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\fmt_format.hpp">
+      <Filter>Header Files\boost\int128</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\format.hpp">
+      <Filter>Header Files\boost\int128</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\hash.hpp">
+      <Filter>Header Files\boost\int128</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\iostream.hpp">
+      <Filter>Header Files\boost\int128</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\limits.hpp">
+      <Filter>Header Files\boost\int128</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\literals.hpp">
+      <Filter>Header Files\boost\int128</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\numeric.hpp">
+      <Filter>Header Files\boost\int128</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\random.hpp">
+      <Filter>Header Files\boost\int128</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\string.hpp">
+      <Filter>Header Files\boost\int128</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\utilities.hpp">
+      <Filter>Header Files\boost\int128</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\detail\clz.hpp">
+      <Filter>Header Files\boost\int128\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\detail\common_add.hpp">
+      <Filter>Header Files\boost\int128\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\detail\common_div.hpp">
+      <Filter>Header Files\boost\int128\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\detail\common_mul.hpp">
+      <Filter>Header Files\boost\int128\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\detail\config.hpp">
+      <Filter>Header Files\boost\int128\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\detail\constants.hpp">
+      <Filter>Header Files\boost\int128\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\detail\conversions.hpp">
+      <Filter>Header Files\boost\int128\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\detail\ctz.hpp">
+      <Filter>Header Files\boost\int128\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\detail\float_conversion.hpp">
+      <Filter>Header Files\boost\int128\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\detail\fwd.hpp">
+      <Filter>Header Files\boost\int128\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\detail\int128_imp.hpp">
+      <Filter>Header Files\boost\int128\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\detail\literal_macros.hpp">
+      <Filter>Header Files\boost\int128\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\detail\mini_from_chars.hpp">
+      <Filter>Header Files\boost\int128\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\detail\mini_to_chars.hpp">
+      <Filter>Header Files\boost\int128\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\detail\traits.hpp">
+      <Filter>Header Files\boost\int128\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\detail\uint128_imp.hpp">
+      <Filter>Header Files\boost\int128\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="boost\int128\detail\utilities.hpp">
+      <Filter>Header Files\boost\int128\detail</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
